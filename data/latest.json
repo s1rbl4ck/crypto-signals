@@ -1,0 +1,77 @@
+{
+  "date": "2026-08-19",
+  "header": "Crypto Daily, Wed 19 Aug",
+  "market": {
+    "cap": "$2.46T",
+    "btcDom": 56.6,
+    "ethDom": 11.1,
+    "fearGreed": 46,
+    "fearLabel": "Fear",
+    "fundingBtc": "+0.0100%",
+    "fundingEth": "+0.0100%"
+  },
+  "btc": {
+    "summary": "Rangebound $62K-$65K. 1d RSI 53, 4h above rising 50/200 EMA (RSI 59), MACD bullish both. No volume confirmation at $65K pivot.",
+    "signal": "Signal \u26aa: buy pullback $63.9K, invalidation $62.5K, targets $64.7K then $65.5K"
+  },
+  "eth": {
+    "summary": "Rising 50 EMA, 1d RSI 58, 4h MACD bullish above 50/200; capped under 1d EMA200 $1,985.",
+    "signal": "Signal \ud83d\udfe2: entry $1,910, invalidation $1,897, targets $1,943 then $1,947"
+  },
+  "alts": [
+    {
+      "symbol": "SOL",
+      "price": 77.33,
+      "ch24h": null,
+      "rsi": 58.0,
+      "trend": "uptrend",
+      "support": 76.6,
+      "resistance": 78.88,
+      "bias": "\ud83d\udfe2 hold above support",
+      "isAltOfDay": false
+    },
+    {
+      "symbol": "XRP",
+      "price": 1.01,
+      "ch24h": null,
+      "rsi": 39.0,
+      "trend": "weak 1d trend",
+      "support": 0.99,
+      "resistance": 1.13,
+      "bias": "\u26aa neutral, no longs",
+      "isAltOfDay": false
+    },
+    {
+      "symbol": "LINK",
+      "price": 9.8,
+      "ch24h": null,
+      "rsi": 74.0,
+      "trend": "overbought uptrend",
+      "support": 8.91,
+      "resistance": 10.03,
+      "bias": "\ud83d\udfe2 dip-only, don't chase",
+      "isAltOfDay": false
+    },
+    {
+      "symbol": "NEAR",
+      "price": 1.731,
+      "rsi": 54,
+      "trend": "down \u2198",
+      "support": 1.723,
+      "resistance": 1.77,
+      "ch24h": null,
+      "bias": "\u26aa watch",
+      "isAltOfDay": true
+    }
+  ],
+  "news": [
+    "CLARITY Act Senate odds <20%; policy overhang keeps ETF flows soft",
+    "SEC proposed Reg Crypto Assets framework; slow risk-on tailwind",
+    "30Y Treasury yields at 2007 highs; macro, not news, drives price"
+  ],
+  "lesson": null,
+  "links": {
+    "tradingview": "https://www.tradingview.com/chart/?symbol=BINANCE:BTCUSDT",
+    "coingecko": "https://www.coingecko.com/en/coins/bitcoin"
+  }
+}
