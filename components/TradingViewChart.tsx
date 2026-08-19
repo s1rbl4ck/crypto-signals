@@ -1,52 +1,24 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-
-declare global {
-  interface Window {
-    TradingView?: any;
-  }
-}
-
+// TradingView advanced chart as a plain iframe. Using the widgetembed URL (no
+// tv.js global, no widget lifecycle) so the chart mounts/unmounts cleanly in a
+// dialog — reopening never leaves stale state or crashes the page.
 export default function TradingViewChart({ symbol }: { symbol: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let widget: any = null;
-    let cancelled = false;
-
-    const init = () => {
-      if (cancelled || !ref.current || !window.TradingView) return;
-      widget = new window.TradingView.widget({
-        autosize: true,
-        symbol,
-        interval: "240",
-        timezone: "Etc/UTC",
-        theme: "dark",
-        style: "1",
-        locale: "en",
-        backgroundColor: "#09090b",
-        gridColor: "#18181b",
-        hide_side_toolbar: false,
-        allow_symbol_change: false,
-        save_image: false,
-        studies: ["RSI@tv-basicstudies", "MACD@tv-basicstudies"],
-      });
-    };
-
-    if (window.TradingView) {
-      init();
-    } else {
-      const s = document.createElement("script");
-      s.src = "https://s3.tradingview.com/tv.js";
-      s.async = true;
-      s.onload = init;
-      document.body.appendChild(s);
-    }
-    return () => {
-      cancelled = true;
-    };
-  }, [symbol]);
-
-  return <div ref={ref} className="h-[420px] w-full" />;
+  const src =
+    "https://s.tradingview.com/widgetembed/?" +
+    `symbol=${encodeURIComponent(symbol)}` +
+    "&interval=240&timezone=Etc%2FUTC&theme=dark&style=1&locale=en" +
+    "&hide_side_toolbar=0&allow_symbol_change=0&save_image=0" +
+    "&studies=%2Fstudies%2Ftv-basicstudies%2FRsi%2Fv1%2F&studies=%2Fstudies%2Ftv-basicstudies%2FMaCross%2Fv1%2F";
+  return (
+    <div className="relative h-[420px] w-full overflow-hidden rounded-md border border-zinc-800 bg-zinc-900/40">
+      <iframe
+        src={src}
+        title="TradingView chart"
+        className="h-full w-full border-0"
+        loading="lazy"
+        allowFullScreen
+      />
+    </div>
+  );
 }
