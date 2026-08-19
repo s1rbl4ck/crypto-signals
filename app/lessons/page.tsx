@@ -5,13 +5,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getLessons } from "@/lib/data";
+import { getLessons } from "@/lib/content";
+import { getPerformance } from "@/lib/db";
 
 export default function LessonsPage() {
   const lessons = getLessons();
-  if (!lessons.length) {
-    return <p className="text-zinc-500">Lessons will appear here as the daily curriculum grows.</p>;
-  }
+  const perf = getPerformance();
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-semibold">Learning library</h1>
@@ -29,11 +28,14 @@ export default function LessonsPage() {
               <CardTitle className="text-base">{l.title}</CardTitle>
             </CardHeader>
             <CardContent className="text-sm text-zinc-400">
-              Reading this improves how signals are interpreted each morning.
+              <p className="line-clamp-4 whitespace-pre-wrap">{l.body.slice(0, 600)}</p>
             </CardContent>
           </Card>
         ))}
       </div>
+      {perf.trusted && (
+        <p className="text-sm text-emerald-400">Signals are flagged trusted (10 confirmed hits).</p>
+      )}
     </div>
   );
 }

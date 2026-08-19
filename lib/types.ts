@@ -7,12 +7,13 @@ export interface CoinSnapshot {
   trend?: string;
   support: number | null;
   resistance: number | null;
-  bias?: string;
+  bias: string;
+  isAltOfDay?: boolean;
 }
 
 export interface Latest {
-  date: string; // YYYY-MM-DD
-  header: string; // "Crypto Daily, Wed 19 Aug"
+  date: string;
+  header: string;
   market: {
     cap: string;
     btcDom: number;
@@ -25,9 +26,32 @@ export interface Latest {
   btc: { summary: string; signal: string };
   eth: { summary: string; signal: string };
   alts: CoinSnapshot[];
-  news?: string[];
-  lesson?: string;
+  news: string[];
+  lesson: string | null;
   links: { tradingview: string; coingecko: string };
+}
+
+export interface SignalRecord {
+  id: string;
+  date: string;
+  coin: string;
+  bias: "long" | "short" | "neutral";
+  entry: number | null;
+  invalidation: number | null;
+  target: number | null;
+  status: "pending" | "hit" | "missed";
+  checkDate: string | null;
+  note?: string;
+}
+
+export interface Performance {
+  trusted: boolean;
+  requiredHits: number;
+  hits: number;
+  missed: number;
+  pending: number;
+  totalSignals: number;
+  signals: SignalRecord[];
 }
 
 export interface HistoryRow {
@@ -42,9 +66,13 @@ export interface Lesson {
   date: string;
   num: number;
   title: string;
+  path: string;
+  body: string;
 }
 
 export interface NewsNote {
   date: string;
   title: string;
+  path: string;
+  body: string;
 }
