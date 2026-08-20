@@ -1,4 +1,5 @@
 import Dashboard from "@/components/Dashboard";
+import MomentumHeatmap from "@/components/MomentumHeatmap";
 import { getLatest, getPerformance } from "@/lib/db";
 
 export default function Home() {
@@ -11,5 +12,10 @@ export default function Home() {
       </p>
     );
   }
-  return <Dashboard latest={latest} perf={perf} />;
+  return (
+    <div className="space-y-6">
+      <Dashboard latest={latest} perf={perf} />
+      <MomentumHeatmap alts={latest.alts} />
+    </div>
+  );
 }
