@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import TradingViewChart from "./TradingViewChart";
+import TradingViewChart, { type ChartLine } from "./TradingViewChart";
 
 export interface Indicator {
   k: string;
@@ -27,6 +27,7 @@ export interface Plan {
   note?: string;
   grade?: string;
   indicators?: Indicator[];
+  lines?: ChartLine[];
 }
 
 const gradeStyle: Record<string, string> = {
@@ -81,7 +82,7 @@ export default function CoinDialog({
               </Badge>
             </DialogHeader>
 
-            <TradingViewChart symbol={`BINANCE:${plan.symbol}USDT`} />
+            <TradingViewChart symbol={`BINANCE:${plan.symbol}USDT`} lines={plan.lines ?? []} />
 
             {plan.indicators && plan.indicators.length > 0 && (
               <div className="flex flex-wrap items-center gap-2 text-xs">

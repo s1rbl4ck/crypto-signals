@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/table";
 import type { CoinSnapshot, Latest, Performance } from "@/lib/types";
 import CoinDialog, { type Indicator, type Plan } from "./CoinDialog";
+import type { ChartLine } from "./TradingViewChart";
 import TrustMeter from "./TrustMeter";
 
 const fmt = (v: number | null) =>
@@ -77,6 +78,14 @@ function buildPlan(c: CoinSnapshot, note?: string): Plan {
     whatToDo = `Keep an eye on ${c.price.toLocaleString()}. No clear bias yet, so no trade until a level confirms.`;
   }
 
+  const lines: ChartLine[] = [];
+  if (s !== null) lines.push({ title: "Support", value: s, color: "#22c55e" });
+  if (r !== null) lines.push({ title: "Resistance", value: r, color: "#ef4444" });
+  if (long && s !== null) lines.push({ title: "Stop", value: s * 0.97, color: "#f97316" });
+  if (short && r !== null) lines.push({ title: "Stop", value: r * 1.03, color: "#f97316" });
+  const tgt = long ? r : short ? s : null;
+  if (tgt !== null) lines.push({ title: "Target", value: tgt, color: "#38bdf8" });
+
   return {
     name: c.symbol,
     symbol: c.symbol,
@@ -89,6 +98,7 @@ function buildPlan(c: CoinSnapshot, note?: string): Plan {
     note,
     grade: c.grade,
     indicators: indicatorsFor(c),
+    lines,
   };
 }
 
