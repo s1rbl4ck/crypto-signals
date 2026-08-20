@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
+import SiteNav from "@/components/SiteNav";
 
 export const metadata: Metadata = {
   title: "Crypto Signals",
@@ -20,12 +21,7 @@ export default function RootLayout({
             <Link href="/" className="text-base font-semibold tracking-tight">
               Crypto<span className="text-emerald-400">Signals</span>
             </Link>
-            <div className="ml-auto flex gap-5 text-sm text-zinc-400">
-              <Link href="/" className="transition hover:text-zinc-100">Today</Link>
-              <Link href="/history" className="transition hover:text-zinc-100">History</Link>
-              <Link href="/lessons" className="transition hover:text-zinc-100">Lessons</Link>
-              <Link href="/news" className="transition hover:text-zinc-100">News</Link>
-            </div>
+            <SiteNav />
           </nav>
         </header>
         <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>

@@ -4,8 +4,12 @@ import type {
   CoinSnapshot,
   HistoryRow,
   Latest,
+  MarketMemory,
+  Movers,
   Performance,
+  Positioning,
   SignalRecord,
+  TrendingItem,
 } from "./types";
 
 const DB_PATH = path.join(process.cwd(), "db", "site.db");
@@ -58,6 +62,12 @@ export function getLatest(): Latest | null {
         resistance: r.resistance,
         bias: r.bias,
         isAltOfDay: !!r.is_alt_of_day,
+        adx: r.adx,
+        stochrsi: r.stochrsi,
+        bbp: r.bbp,
+        obv: r.obv,
+        macd: r.macd,
+        grade: r.grade,
       }),
     );
     return {
@@ -78,6 +88,10 @@ export function getLatest(): Latest | null {
       news: kvJson<string[]>("news", []),
       lesson: kv("lesson"),
       links: kvJson("links", { tradingview: "", coingecko: "" }),
+      positioning: kvJson<Positioning | null>("positioning", null),
+      movers: kvJson<Movers>("movers", { gainers: [], losers: [] }),
+      trending: kvJson<TrendingItem[]>("trending", []),
+      marketMemory: kvJson<MarketMemory | null>("marketMemory", null),
     };
   } catch {
     return null;
@@ -88,9 +102,7 @@ export function getHistory(): HistoryRow[] {
   try {
     return (
       db()
-        .prepare(
-          "SELECT date, btc, eth, btc_bias, eth_bias FROM history ORDER BY date",
-        )
+        .prepare("SELECT date, btc, eth, btc_bias, eth_bias FROM history ORDER BY date")
         .all() as any[]
     ).map((r) => ({
       date: r.date,

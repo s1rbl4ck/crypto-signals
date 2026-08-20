@@ -9,6 +9,46 @@ export interface CoinSnapshot {
   resistance: number | null;
   bias: string;
   isAltOfDay?: boolean;
+  adx?: number | null;
+  stochrsi?: number | null;
+  bbp?: number | null;
+  obv?: number | null;
+  macd?: number | null;
+  grade?: string;
+}
+
+export interface Positioning {
+  btcOi?: number;
+  longShort?: number;
+  topTrader?: number;
+  fundingBtc?: string;
+  fundingEth?: string;
+}
+
+export interface Mover {
+  symbol: string;
+  ch: number;
+}
+
+export interface Movers {
+  gainers: Mover[];
+  losers: Mover[];
+}
+
+export interface TrendingItem {
+  symbol: string;
+  name: string;
+  rank: number | null;
+}
+
+export interface MarketMemory {
+  span?: string;
+  years?: number;
+  bestMonth?: { n: string; avg: number };
+  worstMonth?: { n: string; avg: number };
+  bestYear?: number | null;
+  worstYear?: number | null;
+  note?: string;
 }
 
 export interface Latest {
@@ -29,6 +69,10 @@ export interface Latest {
   news: string[];
   lesson: string | null;
   links: { tradingview: string; coingecko: string };
+  positioning?: Positioning | null;
+  movers?: Movers;
+  trending?: TrendingItem[];
+  marketMemory?: MarketMemory | null;
 }
 
 export interface SignalRecord {

@@ -9,6 +9,12 @@ import {
 import { Badge } from "@/components/ui/badge";
 import TradingViewChart from "./TradingViewChart";
 
+export interface Indicator {
+  k: string;
+  v: string;
+  tone?: "good" | "bad" | "neutral";
+}
+
 export interface Plan {
   name: string;
   symbol: string;
@@ -19,7 +25,15 @@ export interface Plan {
   target: string;
   whatToDo: string;
   note?: string;
+  grade?: string;
+  indicators?: Indicator[];
 }
+
+const gradeStyle: Record<string, string> = {
+  A: "bg-emerald-600 text-white",
+  B: "bg-sky-600 text-white",
+  C: "bg-zinc-600 text-white",
+};
 
 const positionColor = (p: string) =>
   p.includes("Long")
@@ -27,6 +41,9 @@ const positionColor = (p: string) =>
     : p.includes("Short")
       ? "text-red-400"
       : "text-zinc-300";
+
+const indTone = (t?: string) =>
+  t === "good" ? "text-emerald-400" : t === "bad" ? "text-red-400" : "text-zinc-300";
 
 function Row({ label, value, className }: { label: string; value: string; className?: string }) {
   return (
@@ -48,15 +65,16 @@ export default function CoinDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[92vh] w-[95vw] gap-3 overflow-y-auto border-zinc-800 bg-zinc-950 text-zinc-100 sm:max-w-[680px]">
+      <DialogContent className="max-h-[94vh] w-[95vw] gap-3 overflow-y-auto border-zinc-800 bg-zinc-950 text-zinc-100 sm:max-w-[720px]">
         {plan && (
           <>
-            <DialogHeader className="flex-row items-center justify-between space-y-0">
+            <DialogHeader className="flex-row flex-wrap items-center justify-between gap-2 space-y-0">
               <DialogTitle className="flex items-center gap-2 text-xl">
                 {plan.name}
-                <span className="text-sm font-normal text-zinc-500">
-                  ${plan.price.toLocaleString()}
-                </span>
+                <span className="text-sm font-normal text-zinc-500">${plan.price.toLocaleString()}</span>
+                {plan.grade && (
+                  <Badge className={gradeStyle[plan.grade] ?? "bg-zinc-600"}>Grade {plan.grade}</Badge>
+                )}
               </DialogTitle>
               <Badge variant="outline" className={positionColor(plan.position)}>
                 {plan.position}
@@ -64,6 +82,20 @@ export default function CoinDialog({
             </DialogHeader>
 
             <TradingViewChart symbol={`BINANCE:${plan.symbol}USDT`} />
+
+            {plan.indicators && plan.indicators.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2 text-xs">
+                {plan.indicators.map((i) => (
+                  <span
+                    key={i.k}
+                    className="rounded-full border border-zinc-800 bg-zinc-900/60 px-2.5 py-1 text-zinc-400"
+                  >
+                    <span className="text-zinc-500">{i.k}:</span>{" "}
+                    <span className={indTone(i.tone)}>{i.v}</span>
+                  </span>
+                ))}
+              </div>
+            )}
 
             <div className="rounded-lg border border-zinc-800 bg-zinc-900/40 px-4 py-1">
               <Row label="Position" value={plan.position} className={positionColor(plan.position)} />
@@ -81,6 +113,7 @@ export default function CoinDialog({
 
             {plan.note && (
               <p className="rounded-lg border border-zinc-800 bg-zinc-900/40 px-4 py-2 text-sm text-zinc-400">
+                <span className="font-semibold text-zinc-300">Plan guidance: </span>
                 {plan.note}
               </p>
             )}
